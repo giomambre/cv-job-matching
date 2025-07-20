@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV Ranking</title>
+  </head>
+  <body>
+    <h1>CV Ranking</h1>
+    <p>
+      Welcome to the CV Ranking page. Here you can get a rank of your CV based
+      on Jobs Description.
+    </p>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <label for="cvFile">Upload your CV:</label>
+      <input
+        type="file"
+        id="cvFile"
+        name="cvFile"
+        accept=".pdf,.docx"
+        required
+      />
+      <button type="submit">Carica CV</button>
+    </form>
+  </body>
+</html>
