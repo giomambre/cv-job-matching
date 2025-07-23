@@ -3,13 +3,13 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle # save the model and vectors
 import re
 
-CSV_FILE_PATH = 'job_ads.csv' 
+CSV_FILE_PATH = 'model/job_ads.csv' 
 # the name of the Csv coloums containing the job descriptions
-TEXT_COLUMN_NAME = 'description' 
+TEXT_COLUMN_NAME = 'Description' 
 # Il nome del file dove verrà salvato il modello TfidfVectorizer addestrato
-MODEL_SAVE_PATH = 'tfidf_vectorizer.pkl'
+MODEL_SAVE_PATH = 'model/tfidf_vectorizer.pkl'
 # Il nome del file dove verrà salvata la matrice TF-IDF dei tuoi annunci
-VECTORS_SAVE_PATH = 'job_ads_tfidf_vectors.pkl'
+VECTORS_SAVE_PATH = 'model/job_ads_tfidf_vectors.pkl'
 
 
 common_words = [
@@ -21,7 +21,18 @@ common_words = [
     "responsibilities", "comprehensive", "talented", "supportive", "inclusive",
     "diverse", "mission", "vision", "values", "strategic", "impactful",
     "contribute", "success", "achieve", "goals", "objectives", "projects",
-    "initiatives"
+    "initiatives", "strong", "excellent", "proven", "ability", "manage",
+    "deliver", "ensure", "drive", "solve", "foster", "optimize", "lead",
+    "implement", "support", "develop", "high", "standards", "key", "best practices",
+    "solutions", "effective", "successful", "outstanding", "advanced", "extensive",
+    "demonstrate", "commitment", "continuous improvement", "forward-thinking",
+    "analytical", "communication", "shape", "strategies", "complex", "mentor",
+    "colleagues", "essential", "ambitious", "proactive", "detail-oriented",
+    "passionate", "making a difference", "background", "strategic planning",
+    "process improvement", "execution", "stakeholders", "coordination",
+    "requirements gathering", "executive leadership", "will be responsible for",
+    "you will", "we are", "our company is", "become part of", "who excels in",
+    "with expertise in", "in this role", "we value"
 ]
 
 def preprocess_text(text: str) -> str:

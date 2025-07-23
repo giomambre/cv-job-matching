@@ -3,39 +3,23 @@ import pandas as pd
 
 job_categories = {
     "Software Engineer": [
-        "Python  and object-oriented programming",
+        "Python and object-oriented programming",
         "Java SpringBoot microservices",
         "Git branching and merging strategies",
         "SQL query optimization for PostgreSQL",
-        "RESTfulAPI design and documentation",
+        "RESTful API design and documentation",
         "Docker Compose for multi-container apps",
         "Continuous Integration with Jenkins",
         "Unit testing with pytest",
         "Linux shell scripting for automation",
         "Agile Scrum team collaboration",
         "Frontend development with React.js",
-        "Cloud deployment on AWS ",
+        "Cloud deployment on AWS",
         "Code review and static analysis tools",
         "Debugging with VSCode and GDB",
         "Performance profiling and memory management"
     ],
-    "Data Scientist": [
-        "Supervised and unsupervised machinelearning",
-        "Feature engineering for tabular data",
-        "Data cleaning with Pandas",
-        "Statistical hypothesis testing",
-        "Deeplearning with TensorFlow and Keras",
-        "Model deployment with FastAPI",
-        "Data visualization using Seaborn and Matplotlib",
-        "Big data processing with Spark",
-        "Natural Language Processing (NLP) techniques",
-        "Hyperparameter tuning with GridSearchCV",
-        "Time series forecasting with ARIMA",
-        "Dimensionality reduction (PCA, t-SNE)",
-        "SQL for data extraction and transformation",
-        "Experiment tracking with MLflow",
-        "Business analytics and KPI reporting"
-    ],
+   
     "Digital Marketing Specialist": [
         "SEO keyword research and on-page optimization",
         "Google Ads campaign setup and A/B testing",
@@ -53,7 +37,6 @@ job_categories = {
         "Lead generation through LinkedIn",
         "Reporting and dashboard creation"
     ],
-   
     "Cybersecurity Analyst": [
         "Network intrusion detection and prevention",
         "Vulnerability assessment and penetration testing",
@@ -101,14 +84,39 @@ templates = [
     "Seeking an experienced {role} with expertise in {skills}. You will be involved in decision-making, project management, and the implementation of best practices to ensure our continued success."
 ]
 
+# Real tech companies (extended list)
+companies = [
+    "Google","Deepmind", "Microsoft", "Apple", "Amazon", "Meta",
+    "Netflix", "Salesforce", "Adobe", "NVIDIA", "Intel",
+    "IBM", "Oracle", "Cisco", "SAP", "Qualcomm","OpenAI",
+    "Anthropic", "Stripe", "Red Hat", "Atlassian", "Palantir",
+    "Broadcom", "HP", "Dell", "VMware", "Workday",
+    "Tesla", "SpaceX", "Palantir", "Snowflake", "Datadog",
+    "Zoom", "Slack", "ServiceNow", "Shopify", "Square",
+    "Twilio", "Uber", "Lyft", "Airbnb", "Spotify",
+    "Pinterest", "Snap Inc.", "TikTok", "ByteDance", "Tencent",
+    "Alibaba", "Baidu", "Samsung", "Sony", "LG",
+    "Huawei", "Xiaomi", "Lenovo", "ASUS", "Acer",
+    "Ericsson", "Nokia", "Siemens", "Bosch", "Philips"
+]
+
 def generate_fake_job_ads(n=100):
     ads = []
     for _ in range(n):
         role = random.choice(list(job_categories.keys()))
         selected_skills = ", ".join(random.sample(job_categories[role], k=random.randint(5, 9)))
         text = random.choice(templates).format(role=role, skills=selected_skills)
-        ads.append({"title": role, "description": text})
+        company = random.choice(companies)
+        
+        # Generate a realistic fake link
+        company_slug = company.lower().replace(" ", "").replace(".", "").replace(",", "").replace("inc.", "").replace("ltd.", "")
+        link = f"https://careers.{company_slug}.com/jobs/{role.lower().replace(' ', '-')}-{random.randint(1000, 9999)}"
+        
+        ads.append({"Company": company, "Role": role, "Description": text, "Job Link": link})
     return pd.DataFrame(ads)
 
+# Generate 30000 fake job ads
 df = generate_fake_job_ads(30000)
-df.to_csv("job_ads.csv", index=False, encoding="utf-8")
+
+# Save the DataFrame to a CSV file
+df.to_csv("model/job_ads.csv", index=False, encoding="utf-8")

@@ -2,9 +2,9 @@ import pickle
 import pandas as pd
 # from scipy.sparse import csr_matrix 
 
-MODEL_PATH = 'tfidf_vectorizer.pkl'
-VECTORS_PATH = 'job_ads_tfidf_vectors.pkl'
-ORIGINAL_DATA_PATH = 'job_ads.csv'
+MODEL_PATH = 'model/tfidf_vectorizer.pkl'
+VECTORS_PATH = 'model/job_ads_tfidf_vectors.pkl'
+ORIGINAL_DATA_PATH = 'model/job_ads.csv'
 
 try:
     with open(MODEL_PATH, 'rb') as f:
