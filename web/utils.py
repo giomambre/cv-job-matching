@@ -39,7 +39,7 @@ def extract_pdf_text(pdf_source):
         print(f"Error in text extraction: {e}")
         return ""
     
-def find_top_matches(cv_text: str, k: int = 5):
+def find_top_matches(cv_text: str, k: int = 9):
     """Find top k job matches for the given CV text"""
     # Vectorize the CV text and find the most similar job ads
     cv_vector = loaded_vectorizer.transform([cv_text])

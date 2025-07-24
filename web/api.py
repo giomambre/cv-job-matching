@@ -47,7 +47,6 @@ async def test_endpoint():
 @router.post("/api/analyze")
 async def analyze_cv_api(cvFile: UploadFile = File(...)):
     """Modern API endpoint for CV analysis"""
-    print("Found matches for the CV.",flush=True)
 
     try:
         # Validate file type
@@ -77,7 +76,7 @@ async def analyze_cv_api(cvFile: UploadFile = File(...)):
             )
         
         # Find job matches
-        results = find_top_matches(text, k=5)
+        results = find_top_matches(text, k=9)
         return JSONResponse(content={
             "success": True,
             "message": "CV analyzed successfully",
