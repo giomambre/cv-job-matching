@@ -15,7 +15,7 @@ VECTORS_SAVE_PATH = 'model/job_ads_tfidf_vectors.pkl'
 common_words = [
     "looking", "join", "seeking", "role", "position", "candidate", "experience",
     "skills", "team", "work", "opportunity", "company", "apply", "apply now",
-    "apply today", "competitive", "salary", "benefits", "full-time", "part-time",
+    "apply today", "and", "competitive", "salary", "benefits", "full-time", "part-time",
     "remote", "hybrid", "flexible", "culture", "environment", "innovative",
     "dynamic", "collaborative", "leadership", "development", "growth",
     "responsibilities", "comprehensive", "talented", "supportive", "inclusive",
@@ -32,7 +32,7 @@ common_words = [
     "process improvement", "execution", "stakeholders", "coordination",
     "requirements gathering", "executive leadership", "will be responsible for",
     "you will", "we are", "our company is", "become part of", "who excels in",
-    "with expertise in", "in this role", "we value"
+    "with", "with expertise in", "in this role", "we value"
 ]
 
 def preprocess_text(text: str) -> str:
@@ -41,9 +41,8 @@ def preprocess_text(text: str) -> str:
     
    
     # processed_text = re.sub(r'[^\w\s]', '', processed_text) 
-    processed_text = re.sub(r'\s+', ' ', processed_text).strip()  # Rimuove spazi multipli e strip
-    # processed_text = re.sub(r'\d+', '', processed_text)
     processed_text = re.sub(r'\b(?:' + '|'.join(common_words) + r')\b', '', processed_text) 
+    processed_text = re.sub(r'\s+', ' ', processed_text).strip()  # Rimuove spazi multipli e strip 
     return processed_text
 
 
