@@ -5,3 +5,5 @@ pdfminer_six==20250506
 Requests==2.32.4
 scikit_learn==1.7.1
 starlette==0.47.2
+gunicorn==21.2.0
+uvicorn==0.29.0
