@@ -18,7 +18,7 @@ _Note: The live demo runs on a Heroku ECO plan, so it might take a few moments t
 - **🌐 Dynamic Job Scraping**: Fetch the latest job listings directly from multiple sources, including Indeed, LinkedIn, and InfoJobs.
 - **🤖 NLP-Powered Matching**: Utilizes a TF-IDF (Term Frequency-Inverse Document Frequency) vectorizer from `scikit-learn` to intelligently compare the semantic content of a CV with job descriptions, ensuring accurate and meaningful matches.
 - **🚀 Fast & Modern API**: Built with FastAPI, providing a high-performance, asynchronous API that is easy to use and well-documented.
-- **📦 Ready for Deployment**: Includes a `Procfile` for seamless deployment to cloud platforms like Heroku.
+- **📦 Deployment**: Includes a `Procfile` for seamless deployment to Heroku.
 
 ## ⚖️ Important Note on Data Scraping
 
