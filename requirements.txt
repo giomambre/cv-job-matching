@@ -6,3 +6,4 @@ Requests==2.32.4
 scikit_learn==1.7.1
 starlette==0.47.2
 gunicorn
+uvicorn
