@@ -8,3 +8,4 @@ starlette==0.47.2
 gunicorn
 uvicorn
 itsdangerous 
+python-multipart
