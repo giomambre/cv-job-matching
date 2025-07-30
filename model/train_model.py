@@ -1,16 +1,12 @@
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-import pickle # save the model and vectors
+from sentence_transformers import SentenceTransformer
+import pickle
 import re
 
-CSV_FILE_PATH = 'model/job_ads.csv' 
-# the name of the Csv coloums containing the job descriptions
-TEXT_COLUMN_NAME = 'Description' 
-# Il nome del file dove verrà salvato il modello TfidfVectorizer addestrato
-MODEL_SAVE_PATH = 'model/tfidf_vectorizer.pkl'
-# Il nome del file dove verrà salvata la matrice TF-IDF dei tuoi annunci
-VECTORS_SAVE_PATH = 'model/job_ads_tfidf_vectors.pkl'
-
+CSV_FILE_PATH = 'model/job_ads.csv'
+TEXT_COLUMN_NAME = 'Description'
+MODEL_SAVE_PATH = 'model/sentence_embedding_model.pkl'
+VECTORS_SAVE_PATH = 'model/job_ads_embedding_vectors.pkl'
 
 common_words = [
     "looking", "join", "seeking", "role", "position", "candidate", "experience",
@@ -44,6 +40,41 @@ def preprocess_text(text: str) -> str:
     processed_text = re.sub(r'\b(?:' + '|'.join(common_words) + r')\b', '', processed_text) 
     processed_text = re.sub(r'\s+', ' ', processed_text).strip()  # Rimuove spazi multipli e strip 
     return processed_text
+
+
+
+def train_embedding_model(csv_path, text_col, model_path, vectors_path):
+    print(f"1. Loading CSV from {csv_path}")
+    df = pd.read_csv(csv_path)
+
+    if text_col not in df.columns:
+        print(f"Column '{text_col}' not found.")
+        return
+
+    # Preprocess
+    text_data = df[text_col].fillna('')
+    print(f"2. Preprocessing {len(text_data)} descriptions...")
+    processed_docs = text_data.apply(preprocess_text)
+
+    # Load model
+    print("3. Loading sentence-transformer model...")
+    model = SentenceTransformer('all-MiniLM-L6-v2')
+
+    # Encode
+    print("4. Generating embeddings...")
+    embeddings = model.encode(processed_docs.tolist(), show_progress_bar=True)
+
+    # Save model and vectors
+    print(f"5. Saving embedding model to {model_path}")
+    with open(model_path, 'wb') as f:
+        pickle.dump(model, f)
+
+    print(f"6. Saving job vectors to {vectors_path}")
+    with open(vectors_path, 'wb') as f:
+        pickle.dump(embeddings, f)
+
+    print("✅ Embedding training completed.")
+
 
 
 def train_tfidf_model(csv_path: str, text_col: str, model_path: str, vectors_path: str):
@@ -90,4 +121,5 @@ def train_tfidf_model(csv_path: str, text_col: str, model_path: str, vectors_pat
 
 # Run the training function
 if __name__ == "__main__":
-    train_tfidf_model(CSV_FILE_PATH, TEXT_COLUMN_NAME, MODEL_SAVE_PATH, VECTORS_SAVE_PATH)
+    #train_tfidf_model(CSV_FILE_PATH, TEXT_COLUMN_NAME, MODEL_SAVE_PATH, VECTORS_SAVE_PATH)
+    train_embedding_model(CSV_FILE_PATH, TEXT_COLUMN_NAME, MODEL_SAVE_PATH, VECTORS_SAVE_PATH)

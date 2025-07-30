@@ -1,4 +1,5 @@
 from pdfminer.high_level import extract_text
+from sentence_transformers import SentenceTransformer
 import re
 import sys
 import os
@@ -8,19 +9,20 @@ from sklearn.metrics.pairwise import cosine_similarity
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from model.train_model import preprocess_text
 
-MODEL_PATH = 'model/tfidf_vectorizer.pkl'
-VECTORS_PATH = 'model/job_ads_tfidf_vectors.pkl'
+MODEL_PATH_EM = 'model/sentence_embedding_model.pkl'  # opzionale se vuoi salvarlo
+VECTORS_PATH_EM = 'model/job_ads_embedding_vectors.pkl'
 ORIGINAL_DATA_PATH = 'model/job_ads.csv'
 
 try:
-    with open(MODEL_PATH, 'rb') as f:
+    with open(MODEL_PATH_EM, 'rb') as f:
         loaded_vectorizer = pickle.load(f)
     
-    with open(VECTORS_PATH, 'rb') as f:
-        loaded_job_ads_vectors = pickle.load(f)
+    with open(VECTORS_PATH_EM, 'rb') as f:
+        loaded_job_ads_vectors = pickle.load(f)  # array numpy (n_annunci, dim_embedding)
+
     
     loaded_job_ads_df = pd.read_csv(ORIGINAL_DATA_PATH)
-
+    model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')  # o 'cpu' se non hai GPU
 except FileNotFoundError as e:
     print(f"Error: files {MODEL_PATH}, {VECTORS_PATH} and {ORIGINAL_DATA_PATH} are missing. {e}")
     exit()
@@ -38,35 +40,32 @@ def extract_pdf_text(pdf_source):
     except Exception as e:
         print(f"Error in text extraction: {e}")
         return ""
-    
-def find_top_matches(cv_text: str, k: int = 9):
-    """Find top k job matches for the given CV text"""
-    # Vectorize the CV text and find the most similar job ads
-    cv_vector = loaded_vectorizer.transform([cv_text])
+def find_top_matches(cv_text: str, k: int = 6):
+    # Genera embedding per il CV
+    cv_vector = model.encode([cv_text])  # restituisce un array (1, dim_embedding)
 
-    # Calculate cosine similarity between the CV vector and job ads vectors
+    # Calcola similarità coseno tra CV e tutti gli annunci
     similarities = cosine_similarity(cv_vector, loaded_job_ads_vectors).flatten()
 
-    # Combine the similarities with the job ads DataFrame
-    results_df = loaded_job_ads_df.copy() 
+    # Combina i risultati con il dataframe
+    results_df = loaded_job_ads_df.copy()
     results_df['similarity'] = similarities
 
-    # Order the results by similarity score
+    # Ordina per similarità decrescente
     sorted_results = results_df.sort_values(by='similarity', ascending=False)
 
-    # Select the top k job ads
+    # Prendi i primi k annunci
     top_k_jobs = sorted_results.head(k)
-   
-    # Choose the columns to display
-    display_columns = ['Company','Role', 'Description', 'Job Link']
 
-    # Convert the DataFrame to a list of dictionaries for easy reading
+    # Colonne da mostrare
+    display_columns = ['Company', 'Role', 'Description', 'Job Link']
+
+    # Converti in lista di dizionari
     top_k_jobs_output = top_k_jobs[display_columns].to_dict(orient='records')
-    
-    # Add similarity scores to the output
-    similarities_list = sorted_results.head(k)['similarity'].tolist()
+
+    # Aggiungi similarità ai risultati
     for i, job in enumerate(top_k_jobs_output):
-        job['similarity'] = float(similarities_list[i])
+        job['similarity'] = float(sorted_results.iloc[i]['similarity'])
 
     return top_k_jobs_output
 
