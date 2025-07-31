@@ -77,6 +77,7 @@ async def analyze_cv_api(cvFile: UploadFile = File(...)):
         
         # Find job matches
         results = find_top_matches(text, k=9)
+        
         return JSONResponse(content={
             "success": True,
             "message": "CV analyzed successfully",
