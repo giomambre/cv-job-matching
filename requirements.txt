@@ -10,5 +10,4 @@ gunicorn
 uvicorn
 itsdangerous 
 python-multipart
-torch==2.7.1+cpu
 sentence-transformers==5.0.0
