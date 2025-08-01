@@ -272,7 +272,7 @@ The `web/utils.py` file automatically detects the `USE_BERT` environment variabl
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Acknowledgments
+## 🙏 Acknowledgments
 
 - Hugging Face for the excellent SentenceTransformers library
 - FastAPI team for the high-performance web framework
