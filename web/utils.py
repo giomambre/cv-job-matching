@@ -6,7 +6,9 @@ import os
 import json
 import pickle
 import pandas as pd
+import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity 
+from typing import List, Dict
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from model.train_model import preprocess_text
 
@@ -48,12 +50,14 @@ def extract_pdf_text(pdf_source):
         print(f"Error in text extraction: {e}")
         return ""
 def find_top_matches(cv_text: str, k: int = 6):
+    print(f"DEBUG: find_top_matches called with k={k}")
     cv_vector = model.encode([cv_text])
     similarities = cosine_similarity(cv_vector, loaded_job_ads_vectors).flatten()
     results_df = loaded_job_ads_df.copy()
     results_df['similarity'] = similarities
     sorted_results = results_df.sort_values(by='similarity', ascending=False)
     top_k_jobs = sorted_results.head(k)
+    print(f"DEBUG: returning {len(top_k_jobs)} results")
    
     display_columns = ['Company', 'Role', 'Description', 'Job Link']
     top_k_jobs_output = top_k_jobs[display_columns].to_dict(orient='records')
@@ -98,6 +102,7 @@ def format_keywords_for_ui(common_keywords_with_scores):
             "score_job": round(score_job, 4)
         })
     return json.dumps(keywords_list)
+
 
 if __name__ == "__main__":
     # Example usage

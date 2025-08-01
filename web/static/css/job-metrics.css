@@ -1,0 +1,377 @@
+/* Job Metrics Styles */
+
+.job-metrics {
+  background: #f8f9ff;
+  border-radius: 10px;
+  margin: 1rem 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Debug style - rimuovi dopo il test */
+.job-metrics.expanded {
+  border: 2px solid #667eea;
+}
+
+.metrics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+  background: #f0f4ff;
+  border-bottom: 1px solid #e0e6ff;
+}
+
+.metrics-header h4 {
+  margin: 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.metrics-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #667eea;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.metrics-toggle:hover {
+  color: #5a6fd8;
+}
+
+.toggle-icon {
+  transition: transform 0.3s ease;
+}
+
+.job-metrics.expanded .toggle-icon {
+  transform: rotate(180deg);
+}
+
+.metrics-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.3s ease;
+  padding: 0 1.5rem;
+  opacity: 0;
+}
+
+.job-metrics.expanded .metrics-content {
+  max-height: 2000px;
+  padding: 1.5rem;
+  opacity: 1;
+}
+
+/* Overall Match Circle */
+.overall-match {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.match-circle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-ring-circle {
+  transform: rotate(-90deg);
+  transform-origin: 40px 40px;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.match-percentage {
+  position: absolute;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.match-summary h5 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.match-summary p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Skill Breakdown */
+.skill-breakdown {
+  margin-bottom: 2rem;
+}
+
+.skill-breakdown h5 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 0.5rem;
+}
+
+.skills-grid {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.skill-item {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.skill-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.skill-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.skill-confidence {
+  font-size: 0.9rem;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.skill-bar {
+  height: 6px;
+  background: #e0e6ff;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.skill-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  transition: width 0.8s ease;
+}
+
+/* Keyword Analysis */
+.keyword-analysis {
+  margin-bottom: 2rem;
+}
+
+.keyword-analysis h5 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 0.5rem;
+}
+
+.keyword-category {
+  margin-bottom: 1rem;
+}
+
+.category-label {
+  display: block;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.keyword-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.keyword-tag {
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.keyword-tag.technical {
+  background: #e7f3ff;
+  color: #1976d2;
+  border: 1px solid #bbdefb;
+}
+
+.keyword-tag.soft {
+  background: #f0f8e7;
+  color: #388e3c;
+  border: 1px solid #c8e6c9;
+}
+
+/* Experience Match */
+.experience-match {
+  margin-bottom: 2rem;
+}
+
+.experience-match h5 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 0.5rem;
+}
+
+.experience-bars {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.experience-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.experience-item:last-child {
+  margin-bottom: 0;
+}
+
+.exp-bar {
+  height: 8px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.exp-progress {
+  height: 100%;
+  transition: width 0.8s ease;
+}
+
+.exp-progress.required {
+  background: #ff9800;
+}
+
+.exp-progress.yours {
+  background: #4caf50;
+}
+
+.experience-verdict {
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.experience-verdict.good {
+  background: #e8f5e8;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+.experience-verdict.fair {
+  background: #fff8e1;
+  color: #f57c00;
+  border: 1px solid #ffecb3;
+}
+
+/* Job Insights */
+.job-insights h5 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 0.5rem;
+}
+
+.insights-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.insight-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.insight-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.insight-text {
+  color: #555;
+  line-height: 1.4;
+}
+
+/* SVG Gradient */
+svg defs linearGradient {
+  --gradient-from: #667eea;
+  --gradient-to: #764ba2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .overall-match {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .experience-item {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  
+  .skill-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+}
+
+/* Animation for expanding */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.job-metrics.expanded .metrics-content > * {
+  animation: slideDown 0.4s ease forwards;
+}
+
+.job-metrics.expanded .metrics-content > *:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.job-metrics.expanded .metrics-content > *:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.job-metrics.expanded .metrics-content > *:nth-child(4) {
+  animation-delay: 0.3s;
+}

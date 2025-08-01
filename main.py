@@ -2,7 +2,10 @@ from fastapi import FastAPI
 from starlette.middleware.sessions import SessionMiddleware
 from web.api import router  
 import secrets
+import os
+from pathlib import Path
 from fastapi.staticfiles import StaticFiles
+# Initialize FastAPI app
 
 app = FastAPI()
 secret_key = secrets.token_urlsafe(32)

@@ -2,8 +2,6 @@ from fastapi import APIRouter, File, UploadFile, Request, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from web.utils import *
 from io import BytesIO
-import json
-import logging
 router = APIRouter()
 
 @router.get("/", response_class=HTMLResponse)
@@ -46,8 +44,7 @@ async def test_endpoint():
 
 @router.post("/api/analyze")
 async def analyze_cv_api(cvFile: UploadFile = File(...)):
-    """Modern API endpoint for CV analysis"""
-
+    """API endpoint for CV analysis"""
     try:
         # Validate file type
         allowed_types = ["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]
@@ -75,8 +72,8 @@ async def analyze_cv_api(cvFile: UploadFile = File(...)):
                 detail="Could not extract text from the uploaded file. Please ensure it's a valid PDF or DOCX file."
             )
         
-        # Find job matches
-        results = find_top_matches(text, k=9)
+        # Find job matches using static data
+        results = find_top_matches(text)
         
         return JSONResponse(content={
             "success": True,

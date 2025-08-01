@@ -9,3 +9,4 @@ gunicorn
 uvicorn
 itsdangerous 
 python-multipart
+sentence-transformers

@@ -1,0 +1,85 @@
+/* Accessibility enhancements */
+
+/* Focus indicators for keyboard navigation */
+body.keyboard-navigation *:focus {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+body:not(.keyboard-navigation) *:focus {
+  outline: none;
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* No results state */
+.no-results {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #666;
+}
+
+.no-results-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.no-results h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.no-results p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Loading states improvements */
+.loading-spinner {
+  margin: 2rem auto;
+}
+
+
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .job-card {
+    border: 2px solid #000;
+  }
+  
+  .match-score {
+    background: #000 !important;
+    color: #fff !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode support (future enhancement) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+  }
+}
