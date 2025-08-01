@@ -9,7 +9,7 @@ gunicorn
 uvicorn
 itsdangerous 
 python-multipart
-
+# Usa una versione più leggera
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.0.0+cpu
-transformers==4.30.0
+torch==2.7.1+cpu --no-deps
+transformers==4.30.0 --no-deps
