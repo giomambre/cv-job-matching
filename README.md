@@ -1,24 +1,60 @@
 # CV Job Matcher API
 
-[![Python Version](https.img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![FastAPI](https.img.shields.io/badge/Framework-FastAPI-green.svg)](https://fastapi.tiangolo.com/)
+[![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/Framework-FastAPI-green.svg)](https://fastapi.tiangolo.com/)
+[![BERT](https://img.shields.io/badge/NLP-SentenceTransformers-orange.svg)](https://www.sbert.net/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This project is a powerful CV-Job Matching application designed to bridge the gap between job seekers and employers. It leverages Natural Language Processing (NLP) to analyze resumes, compare them against a database of job listings, and rank them based on relevance. Additionally, it includes a web scraping module to dynamically gather fresh job postings from popular platforms.
+An advanced CV-Job Matching application that leverages state-of-the-art Natural Language Processing to intelligently match job seekers with relevant opportunities. The system uses BERT-based sentence transformers for semantic understanding and provides detailed matching analytics with interactive visualizations.
 
 ## 🚀 Live Demo
 
-[LINK OF THE APP.](https://cvjobmatching-a7049acad1b5.herokuapp.com/)
+[**Try the Application**](https://cvjobmatching-a7049acad1b5.herokuapp.com/)
 
 _Note: The live demo runs on a Heroku ECO plan, so it might take a few moments to load._
 
-## ✨ Features
+## Features
 
-- **📄 CV Analysis & Ranking**: Upload a CV in PDF or DOCX format, and the system will extract its content, analyze it, and match it against a pre-existing dataset of job advertisements. It then returns a list of the most suitable job openings, ranked by relevance.
-- **🌐 Dynamic Job Scraping**: Fetch the latest job listings directly from multiple sources, including Indeed, LinkedIn, and InfoJobs.
-- **🤖 NLP-Powered Matching**: Utilizes a TF-IDF (Term Frequency-Inverse Document Frequency) vectorizer from `scikit-learn` to intelligently compare the semantic content of a CV with job descriptions, ensuring accurate and meaningful matches.
-- **🚀 Fast & Modern API**: Built with FastAPI, providing a high-performance, asynchronous API that is easy to use and well-documented.
-- **📦 Deployment**: Includes a `Procfile` for seamless deployment to Heroku.
+### AI Matching
+
+- **BERT-Powered Semantic Analysis**: Uses `all-MiniLM-L6-v2` SentenceTransformer model for deep semantic understanding
+- **Dual-Algorithm Approach**: Combines BERT embeddings with TF-IDF vectorization for comprehensive analysis
+- **Contextual Understanding**: Goes beyond keyword matching to understand job requirements and candidate skills
+
+### Intelligent Metrics & Analytics
+
+- **Detailed Skill Breakdown**: Real-time analysis of technical and soft skills alignment
+- **Keyword Analysis**: TF-IDF-based extraction of common keywords between CV and job descriptions
+- **AI-Generated Insights**: Contextual recommendations and application strategies
+
+## Technical Architecture
+
+### Machine Learning Pipeline
+
+```
+CV Upload → Text Extraction → Preprocessing → BERT Encoding → Similarity Calculation → Results Ranking
+                                          ↓
+                            TF-IDF Analysis → Keyword Extraction → Metrics Generation
+```
+
+### Core Technologies
+
+- **Backend**: Python, FastAPI, Uvicorn
+- **ML/NLP**:
+  - SentenceTransformers (`all-MiniLM-L6-v2`)
+  - Scikit-learn (TF-IDF, Cosine Similarity)
+  - Pandas, NumPy
+- **Frontend**: Vanilla JavaScript (ES6+), CSS
+- **Text Processing**: PDFMiner, python-multipart
+- **Web Scraping**: BeautifulSoup, Requests
+- **Deployment**: Gunicorn, Heroku
+
+## Caching & Performance
+
+Pre-computed job embeddings for faster matching
+Pickle-based model persistence
+Efficient vector operations with NumPy
+Lazy loading for large datasets
 
 ## ⚖️ Important Note on Data Scraping
 
@@ -26,7 +62,7 @@ The web scraping functionality in this project is provided for demonstration and
 
 **This project does not actively scrape live data from the aforementioned websites.** The scraping code is included to showcase the technical capabilities and for educational purposes. Users interested in using the scraping functionality should be aware of the terms of service of the respective websites and use the scraper responsibly and at their own risk.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend**: Python, FastAPI
 - **NLP/Machine Learning**: Scikit-learn, Pandas
@@ -34,13 +70,16 @@ The web scraping functionality in this project is provided for demonstration and
 - **Server**: Gunicorn, Uvicorn
 - **Data Handling**: PDFMiner, python-multipart
 
-## 🚀 Getting Started
+## Getting Started
 
 Follow these instructions to set up and run the project on your local machine.
 
 ### Prerequisites
 
-Make sure you have Python 3.9 or higher installed on your system.
+### Prerequisites
+
+- Python 3.9 or higher
+- 4GB+ RAM (for BERT model loading)
 
 ### Installation
 
@@ -73,7 +112,7 @@ uvicorn main:app --reload
 
 The application will be available at `http://127.0.0.1:8000`.
 
-## 📖 API Endpoints
+## API Endpoints
 
 The application provides the following API endpoints:
 
@@ -159,26 +198,37 @@ The application provides the following API endpoints:
 Here is an overview of the key files and directories in this project:
 
 ```
-.cv-job-matching/
-├── .gitignore
-├── main.py             # Main FastAPI application entry point
-├── Procfile            # Heroku deployment configuration
-├── README.md           # This file
-├── requirements.txt    # Python dependencies
-├── scraper.py          # Module for scraping job data from various sites
-|
-├── model/              # Directory for ML model, datasets, and related scripts
-│   ├── job_ads.csv         # Dataset of job ads used for matching
-│   ├── tfidf_vectorizer.pkl  # Pickled TF-IDF vectorizer model
-│   └── train_model.py      # Script to train and save the TF-IDF model
-|
-└── web/                # Web-related files (API, frontend, etc.)
-    ├── api.py          # Defines the main API routes and logic
-    ├── utils.py        # Utility functions for text extraction and matching
-    ├── index.html      # Simple HTML frontend for file upload
-    └── static/         # Static assets (CSS, JS)
+cv-job-matching/
+├── 📁 model/                    # ML models and training scripts
+│   ├── job_ads.csv             # Curated job dataset
+│   ├── tfidf_vectorizer.pkl    # Trained TF-IDF model
+│   ├── sentence_embedding_model.pkl  # BERT model cache
+│   ├── job_ads_embedding_vectors.pkl # Pre-computed embeddings
+│   └── train_model.py          # Model training pipeline
+├── 📁 web/                     # Web application components
+│   ├── api.py                  # FastAPI routes and logic
+│   ├── utils.py                # ML utilities and text processing
+│   ├── index.html              # Main application interface
+│   └── 📁 static/              # Frontend assets
+│       ├── 📁 css/             # Stylesheets
+│       ├── 📁 js/              # JavaScript modules
+│       │   ├── 📁 components/  # UI components
+│       │   ├── 📁 services/    # API services
+│       │   └── 📁 utils/       # Utility functions
+│       └── style.css           # Main stylesheet
+├── main.py                     # FastAPI application entry point
+├── scraper.py                  # Web scraping modules
+├── requirements.txt            # Python dependencies
+└── Procfile                    # Heroku deployment config
 ```
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Acknowledgments
+
+- Hugging Face for the excellent SentenceTransformers library
+- FastAPI team for the high-performance web framework
+- scikit-learn contributors for robust ML tools
+- Open Source Community for inspiration and support
