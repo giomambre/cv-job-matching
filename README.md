@@ -76,31 +76,62 @@ Follow these instructions to set up and run the project on your local machine.
 
 ### Prerequisites
 
-### Prerequisites
-
 - Python 3.9 or higher
-- 4GB+ RAM (for BERT model loading)
+- 2GB+ RAM (TF-IDF version) or 4GB+ RAM (BERT version)
 
-### Installation
+## 🔧 Installation & Setup
+
+This project offers two configurations to balance performance and resource usage:
+
+### 🚀 **Deployment Version (TF-IDF - Lightweight)**
+*Recommended for production deployments with limited resources*
 
 1. **Clone the repository:**
-
    ```bash
    git clone https://github.com/your-username/cv-job-matching.git
    cd cv-job-matching
    ```
 
-2. **Create a virtual environment and activate it:**
-
+2. **Create and activate virtual environment:**
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
-3. **Install the required dependencies:**
+3. **Install lightweight dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
+   
+   *This installs only essential packages (~50MB total) without PyTorch/BERT*
+
+### 💻 **Development Version (BERT - Full Features)**
+*For local development with advanced AI capabilities*
+
+1. **Follow steps 1-2 above, then install full dependencies:**
+   ```bash
+   pip install -r requirements-github.txt
+   ```
+
+2. **Enable BERT mode:**
+   ```bash
+   export USE_BERT=true  # On Windows: set USE_BERT=true
+   ```
+   
+   *This version includes PyTorch and SentenceTransformers (~1GB total)*
+
+### ⚙️ **Configuration**
+
+The application automatically detects which model to use based on the `USE_BERT` environment variable:
+
+- **`USE_BERT=false`** (default): Uses TF-IDF for matching - Fast, lightweight
+- **`USE_BERT=true`**: Uses BERT for matching - More accurate, resource-intensive
+
+Create a `.env` file (optional):
+```bash
+cp .env.example .env
+# Edit .env to set USE_BERT=true for BERT mode
+```
 
 ### Running the Application
 
@@ -201,13 +232,15 @@ Here is an overview of the key files and directories in this project:
 cv-job-matching/
 ├── 📁 model/                    # ML models and training scripts
 │   ├── job_ads.csv             # Curated job dataset
+│   ├── job_ads_8k.csv          # Smaller dataset for faster loading
 │   ├── tfidf_vectorizer.pkl    # Trained TF-IDF model
-│   ├── sentence_embedding_model.pkl  # BERT model cache
-│   ├── job_ads_embedding_vectors.pkl # Pre-computed embeddings
+│   ├── job_ads_tfidf_vectors.pkl # Pre-computed TF-IDF vectors
+│   ├── sentence_embedding_model.pkl  # BERT model cache (GitHub version)
+│   ├── job_ads_embedding_vectors.pkl # Pre-computed BERT embeddings
 │   └── train_model.py          # Model training pipeline
 ├── 📁 web/                     # Web application components
 │   ├── api.py                  # FastAPI routes and logic
-│   ├── utils.py                # ML utilities and text processing
+│   ├── utils.py                # Smart ML utilities (TF-IDF/BERT switching)
 │   ├── index.html              # Main application interface
 │   └── 📁 static/              # Frontend assets
 │       ├── 📁 css/             # Stylesheets
@@ -218,9 +251,22 @@ cv-job-matching/
 │       └── style.css           # Main stylesheet
 ├── main.py                     # FastAPI application entry point
 ├── scraper.py                  # Web scraping modules
-├── requirements.txt            # Python dependencies
+├── requirements.txt            # Lightweight dependencies (TF-IDF)
+├── requirements-github.txt     # Full dependencies (BERT + TF-IDF)
+├── .env.example               # Environment configuration template
 └── Procfile                    # Heroku deployment config
 ```
+
+## 🔄 **Model Switching Logic**
+
+The application intelligently switches between models based on available resources:
+
+| Environment | Model Used | Memory Usage | Accuracy | Speed |
+|-------------|------------|--------------|----------|-------|
+| **Deployment** | TF-IDF | ~100MB | Good | Fast |
+| **Development** | BERT | ~1GB | Excellent | Moderate |
+
+The `web/utils.py` file automatically detects the `USE_BERT` environment variable and loads the appropriate model components.
 
 ## 📄 License
 

@@ -1,0 +1,37 @@
+# Large model files - will be recreated at runtime
+model/sentence_embedding_model.pkl
+model/job_ads_embedding_vectors.pkl
+model/job_ads_tfidf_vectors.pkl
+model/job_ads.csv
+
+# Development files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+.env
+.venv
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.DS_Store
+.vscode/
+.idea/
+
+# Test files
+tests/
+tempCodeRunnerFile.py
+model/tempCodeRunnerFile.py
+
+# Documentation (if not needed for production)
+DOCUMENTAZIONE_PROGETTO.md
+README.md

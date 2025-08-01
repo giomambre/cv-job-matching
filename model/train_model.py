@@ -1,7 +1,22 @@
 import pandas as pd
-from sentence_transformers import SentenceTransformer
 import pickle
 import re
+import os
+
+# Only import sentence_transformers if needed (for BERT version)
+try:
+    USE_BERT = os.getenv('USE_BERT', 'false').lower() == 'true'
+    if USE_BERT:
+        from sentence_transformers import SentenceTransformer
+except ImportError:
+    USE_BERT = False
+    print("sentence_transformers not available, using TF-IDF only")
+
+# Import sklearn only when needed
+try:
+    from sklearn.feature_extraction.text import TfidfVectorizer
+except ImportError:
+    print("Warning: sklearn not available")
 
 CSV_FILE_PATH = 'model/job_ads.csv'
 TEXT_COLUMN_NAME = 'Description'
@@ -44,6 +59,10 @@ def preprocess_text(text: str) -> str:
 
 
 def train_embedding_model(csv_path, text_col, model_path, vectors_path):
+    if not USE_BERT:
+        print("BERT not available or disabled. Use train_tfidf_model instead.")
+        return
+        
     print(f"1. Loading CSV from {csv_path}")
     df = pd.read_csv(csv_path)
 
@@ -57,7 +76,7 @@ def train_embedding_model(csv_path, text_col, model_path, vectors_path):
     processed_docs = text_data.apply(preprocess_text)
 
     # Load model
-    print("3. Loading sentence-transformer model...")
+    print("3. Loading sentence-transformer model...")  
     model = SentenceTransformer('all-MiniLM-L6-v2')
 
     # Encode
@@ -121,5 +140,10 @@ def train_tfidf_model(csv_path: str, text_col: str, model_path: str, vectors_pat
 
 # Run the training function
 if __name__ == "__main__":
-    #train_tfidf_model(CSV_FILE_PATH, TEXT_COLUMN_NAME, MODEL_SAVE_PATH, VECTORS_SAVE_PATH)
-    train_embedding_model(CSV_FILE_PATH, TEXT_COLUMN_NAME, MODEL_SAVE_PATH, VECTORS_SAVE_PATH)
+    if USE_BERT:
+        train_embedding_model(CSV_FILE_PATH, TEXT_COLUMN_NAME, MODEL_SAVE_PATH, VECTORS_SAVE_PATH)
+    else:
+        # Default TF-IDF paths
+        tfidf_model_path = 'model/tfidf_vectorizer.pkl'
+        tfidf_vectors_path = 'model/job_ads_tfidf_vectors.pkl'
+        train_tfidf_model(CSV_FILE_PATH, TEXT_COLUMN_NAME, tfidf_model_path, tfidf_vectors_path)
