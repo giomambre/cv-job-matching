@@ -9,5 +9,5 @@ gunicorn
 uvicorn
 itsdangerous 
 python-multipart
-torch==2.7.1+cpu --index-url https://download.pytorch.org/whl/cpu
+torch==2.7.1
 sentence-transformers==5.0.0
